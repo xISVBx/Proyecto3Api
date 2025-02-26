@@ -1,0 +1,169 @@
+basePath: /docs/swagger
+definitions:
+  dtos.LoginDto:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dtos.RegisterRequest:
+    properties:
+      address:
+        type: string
+      cityId:
+        type: integer
+      email:
+        type: string
+      lastName:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  dtos.RegisterResponse:
+    properties:
+      email:
+        type: string
+      lastName:
+        type: string
+      name:
+        type: string
+    type: object
+  models.AppResponse:
+    properties:
+      data: {}
+      errors:
+        items:
+          type: string
+        type: array
+      success:
+        type: boolean
+    type: object
+host: localhost:3031
+info:
+  contact:
+    email: soporte@jecopainsurance.com
+    name: Soporte Col Moda
+    url: http://jecopainsurance.com/support
+  description: API para la tienda de moda Col Moda.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://jecopainsurance.com/terms/
+  title: Col Moda API
+  version: "1.0"
+paths:
+  /api/v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Permite a los usuarios autenticarse en la plataforma.
+      parameters:
+      - description: Credenciales de usuario
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Iniciar sesión
+      tags:
+      - Auth
+  /api/v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva cuenta para el usuario con los datos proporcionados.
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.RegisterResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Registro de usuario
+      tags:
+      - Auth
+  /api/v1/version:
+    get:
+      description: Retorna la versión de la API configurada en el sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Obtener versión
+      tags:
+      - Version
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

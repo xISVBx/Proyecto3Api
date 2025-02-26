@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: colmodadb
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: colmoda
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin-colmoda
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - app-net
+
+  api:
+    build: .
+    container_name: colmoda-api
+    environment:
+      - PORT=3031
+      - APP_ENV=development
+      - DSN=postgres://admin:admin@postgres:5432/colmoda?sslmode=disable
+      - JWT_SECRET=mysecretkey
+      - VERSION=0.0.1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-net
+    ports:
+      - "3031:3031"
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  pg_data:
+  pgadmin_data:
