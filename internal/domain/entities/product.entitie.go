@@ -9,7 +9,7 @@ import (
 
 type Product struct {
 	gorm.Model
-	ID               uuid.UUID  `gorm:"type:uuid;primaryKey"`
+	ID               uuid.UUID `gorm:"type:uuid;primaryKey"`
 	Name             string
 	ShortDescription string
 	LongDescription  string
@@ -23,9 +23,10 @@ type Product struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 
-	Company     Company     `gorm:"foreignKey:CompanyID"`
-	Category    Category    `gorm:"foreignKey:CategoryID"`
-	SubCategory SubCategory `gorm:"foreignKey:SubCategoryID"`
-	Tag         Tag         `gorm:"foreignKey:TagID"`
-	Discount    *Discount   `gorm:"foreignKey:DiscountID"` // ✅ Relación opcional
+	Company        Company          `gorm:"foreignKey:CompanyID"`
+	Category       Category         `gorm:"foreignKey:CategoryID"`
+	SubCategory    SubCategory      `gorm:"foreignKey:SubCategoryID"`
+	Tag            Tag              `gorm:"foreignKey:TagID"`
+	ImagesProducts []ImageProduct `gorm:"foreignKey:ProductID"`
+	Discount       *Discount        `gorm:"foreignKey:DiscountID"` // ✅ Relación opcional
 }

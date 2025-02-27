@@ -8,14 +8,16 @@ import (
 
 // Estructura que contiene todos los repositorios
 type Infraestructure struct {
-	UserRepo *repositories.UserRepository
-	RoleRepo *repositories.RoleRepository
+	UserRepo     *repositories.UserRepository
+	RoleRepo     *repositories.RoleRepository
+	CategoryRepo *repositories.CategoryRepository
 }
 
 // Función para inicializar todos los repositorios
 func InitInfraestructure(db *gorm.DB) *Infraestructure {
 	return &Infraestructure{
-		UserRepo: repositories.NewUserRepository(db),
-		RoleRepo: repositories.NewRoleRepository(db),
+		UserRepo:     repositories.NewUserRepository(db),
+		RoleRepo:     repositories.NewRoleRepository(db),
+		CategoryRepo: repositories.NewCategoriesRepository(db),
 	}
 }

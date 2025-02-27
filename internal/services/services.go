@@ -6,14 +6,16 @@ import (
 
 // Estructura que contiene todos los servicios
 type Services struct {
-	UserService *UserService
-	RoleService *RoleService
+	UserService      *UserService
+	RoleService      *RoleService
+	CategorieService *CategorieService
 }
 
 // Función para inicializar todos los servicios
 func InitServices(repos *infraestructure.Infraestructure) *Services {
 	return &Services{
-		UserService: NewUserService(repos.UserRepo, repos.RoleRepo),
-		RoleService: NewRoleService(repos.RoleRepo),
+		UserService:      NewUserService(repos.UserRepo, repos.RoleRepo),
+		RoleService:      NewRoleService(repos.RoleRepo),
+		CategorieService: NewCategorieService(repos.CategoryRepo),
 	}
 }

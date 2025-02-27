@@ -29,6 +29,7 @@ func (s *Server) RegisterRoutes() (http.Handler, error) {
 		v1_routes.UserRoutes(v1, *s.Controllers.UserController)
 		v1_routes.VersionRoutes(v1, *s.Controllers.VersionController)
 		v1_routes.RoleRoutes(v1, *s.Controllers.RoleController)
+		v1_routes.CategoryRoutes(v1, *s.Controllers.CategoryController)
 	}
 
 	return r, nil

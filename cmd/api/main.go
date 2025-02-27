@@ -11,7 +11,7 @@
 // @license.url https://opensource.org/licenses/MIT
 
 // @host localhost:3031
-// @BasePath /docs/swagger
+// @BasePath /
 
 // @securityDefinitions.apikey BearerAuth
 // @in header

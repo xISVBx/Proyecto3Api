@@ -1,5 +1,14 @@
-basePath: /docs/swagger
+basePath: /
 definitions:
+  dtos.CategoryResponse:
+    properties:
+      descripcion:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
   dtos.LoginDto:
     properties:
       email:
@@ -33,6 +42,13 @@ definitions:
       name:
         type: string
     type: object
+  entities.Role:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+    type: object
   models.AppResponse:
     properties:
       data: {}
@@ -57,6 +73,44 @@ info:
   title: Col Moda API
   version: "1.0"
 paths:
+  /api/v1/categories:
+    get:
+      consumes:
+      - application/json
+      description: Retorna un listado de las categorias de la aplicacion.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtos.CategoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Obtener todas las categorias
+      tags:
+      - Categories
   /api/v1/login:
     post:
       consumes:
@@ -143,6 +197,44 @@ paths:
       summary: Registro de usuario
       tags:
       - Auth
+  /api/v1/roles:
+    get:
+      consumes:
+      - application/json
+      description: Retorna un listado de los roles de la aplicacion.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.Role'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Obtener todos los roles
+      tags:
+      - Roles
   /api/v1/version:
     get:
       description: Retorna la versión de la API configurada en el sistema.

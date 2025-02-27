@@ -8,6 +8,6 @@ import (
 
 func RoleRoutes(r *gin.RouterGroup, c controllers.RoleController) {
 
-	r.GET("", c.FindAllRoles)
+	r.GET("roles", c.FindAllRoles)
 
 }

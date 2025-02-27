@@ -18,6 +18,16 @@ func NewRoleController(s *services.RoleService) *RoleController {
 	}
 }
 
+// FindAllRoles Obtener todos los roles de la aplicacion
+// @Summary Obtener todos los roles
+// @Description Retorna un listado de los roles de la aplicacion.
+// @Tags Roles
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.AppResponse{data=[]entities.Role}
+// @Failure 400 {object} models.AppResponse{data=interface{}}
+// @Failure 409 {object} models.AppResponse{data=interface{}}
+// @Router /api/v1/roles [get]
 func (ct RoleController) FindAllRoles(c *gin.Context) {
 
 	roles, aErr := ct.roleS.FindAllRoles()

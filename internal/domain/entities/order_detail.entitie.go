@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -16,8 +14,6 @@ type OrderDetail struct {
 	PricePerUnit  float64
 	PriceFinal    float64
 	TotalDiscount float64
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
 
 	Order   Order   `gorm:"foreignKey:OrderID"`
 	Product Product `gorm:"foreignKey:ProductID"`
