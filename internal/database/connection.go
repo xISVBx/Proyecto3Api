@@ -53,7 +53,7 @@ func Migration(db *gorm.DB) error {
 		&entities.Tag{}, &entities.SubCategory{}, &entities.Category{}, &entities.Product{},
 		&entities.UserCompany{}, &entities.Company{}, &entities.Department{}, &entities.City{},
 		&entities.User{}, &entities.Role{},
-	)
+	) 
 
 	err := db.AutoMigrate(
 		&entities.User{}, &entities.City{}, &entities.Department{}, &entities.Company{}, &entities.UserCompany{},
@@ -69,7 +69,7 @@ func Migration(db *gorm.DB) error {
 	err = ExecuteSQLScript(db, "cmd/database/script.sql")
 	if err != nil {
 		fmt.Println("❌ Error ejecutando script.sql:", err)
-		return err
+		return err  
 	}
 
 	return nil

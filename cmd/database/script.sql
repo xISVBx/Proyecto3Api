@@ -1,11 +1,35 @@
 DO $$ 
 DECLARE 
-    moda_id UUID := gen_random_uuid();
-    jeans_id UUID := gen_random_uuid();
-    eco_id UUID := gen_random_uuid();
-    urban_id UUID := gen_random_uuid();
-    lujo_id UUID := gen_random_uuid();
+    category_ids UUID[];
+    empresas_ids UUID[];
+	productos_ids UUID[];
+	roles_ids UUID[];
 BEGIN
+	--Generar IDs para roles
+	SELECT ARRAY(
+        SELECT gen_random_uuid()
+        FROM generate_series(1, 2)
+    ) INTO roles_ids;
+	
+    -- Generar IDs para empresas
+    SELECT ARRAY(
+        SELECT gen_random_uuid()
+        FROM generate_series(1, 5)
+    ) INTO empresas_ids;
+
+    -- Generar IDs para categorías
+    SELECT ARRAY(
+        SELECT gen_random_uuid()
+        FROM generate_series(1, 50)
+    ) INTO category_ids;
+
+	-- Generar IDs para productos
+	SELECT ARRAY(
+		SELECT gen_random_uuid()
+		FROM generate_series(1, 20)
+	) INTO productos_ids;
+
+	
     -- Insertar roles
     INSERT INTO roles (id, description) 
 	VALUES 
@@ -1175,14 +1199,68 @@ BEGIN
 		(99773,'Cumaribo',99);
 
 	-- Insertar compañías de ropa
-	INSERT INTO companies (id, created_at, updated_at, deleted_at, company_name, description)
+    INSERT INTO companies (id, created_at, updated_at, deleted_at, company_name, description)
     VALUES
-        (moda_id, NOW(), NOW(), NULL, 'Moda Colombiana', 'Ropa tradicional y moderna colombiana'),
-        (jeans_id, NOW(), NOW(), NULL, 'Jeans & Co', 'Especialistas en jeans y ropa casual'),
-        (eco_id, NOW(), NOW(), NULL, 'EcoFashion', 'Ropa sostenible y ecológica'),
-        (urban_id, NOW(), NOW(), NULL, 'Urban Style', 'Ropa urbana y deportiva'),
-        (lujo_id, NOW(), NOW(), NULL, 'Lujo Elegante', 'Ropa de lujo y alta costura');
+        (empresas_ids[1], NOW(), NOW(), NULL, 'Moda Colombiana', 'Ropa tradicional y moderna colombiana'),
+        (empresas_ids[2], NOW(), NOW(), NULL, 'Jeans & Co', 'Especialistas en jeans y ropa casual'),
+        (empresas_ids[3], NOW(), NOW(), NULL, 'EcoFashion', 'Ropa sostenible y ecológica'),
+        (empresas_ids[4], NOW(), NOW(), NULL, 'Urban Style', 'Ropa urbana y deportiva'),
+        (empresas_ids[5], NOW(), NOW(), NULL, 'Lujo Elegante', 'Ropa de lujo y alta costura');
 
+    -- Insertar categorías
+    INSERT INTO categories (id, created_at, updated_at, deleted_at, name, description)
+    SELECT 
+        unnest(category_ids), 
+        NOW(), 
+        NOW(), 
+        NULL, 
+        unnest(ARRAY[
+            'Camisetas', 'Pantalones', 'Vestidos', 'Chaquetas', 'Jeans', 'Zapatos', 'Accesorios', 'Ropa Interior',
+            'Trajes', 'Sudaderas', 'Shorts', 'Blusas', 'Faldas', 'Abrigos', 'Ropa Deportiva', 'Ropa de Baño',
+            'Ropa de Dormir', 'Ropa para Niños', 'Ropa para Bebés', 'Ropa de Trabajo', 'Ropa Formal', 'Ropa Casual',
+            'Ropa de Fiesta', 'Ropa de Invierno', 'Ropa de Verano', 'Ropa de Otoño', 'Ropa de Primavera', 
+            'Ropa Ecológica', 'Ropa Artesanal', 'Ropa Tradicional', 'Ropa de Lujo', 'Ropa Urbana', 'Ropa Vintage',
+            'Ropa de Marca', 'Ropa de Diseñador', 'Ropa de Algodón', 'Ropa de Lana', 'Ropa de Seda', 'Ropa de Cuero',
+            'Ropa de Mezclilla', 'Ropa de Encaje', 'Ropa Bordada', 'Ropa Estampada', 'Ropa Luminosa', 
+            'Ropa Impermeable', 'Ropa Ajustada', 'Ropa Holgada', 'Ropa de Colores Neutros', 'Ropa de Colores Vivos', 
+            'Ropa Personalizada'
+        ]), 
+        unnest(ARRAY[
+            'Camisetas casuales y deportivas', 'Pantalones de diferentes estilos y tallas', 
+            'Vestidos para ocasiones especiales y casuales', 'Chaquetas abrigadas y modernas', 
+            'Jeans de diferentes cortes y colores', 'Zapatos casuales y formales', 
+            'Accesorios como bolsos, cinturones y más', 'Ropa interior cómoda y de calidad', 
+            'Trajes elegantes para hombres y mujeres', 'Sudaderas cómodas y modernas', 
+            'Shorts para actividades deportivas y casuales', 'Blusas elegantes y casuales', 
+            'Faldas de diferentes estilos y largos', 'Abrigos para climas fríos', 
+            'Ropa para actividades deportivas', 'Trajes de baño para playa y piscina', 
+            'Pijamas y ropa cómoda para dormir', 'Ropa infantil de diferentes estilos', 
+            'Ropa cómoda y segura para bebés', 'Ropa resistente para actividades laborales', 
+            'Ropa elegante para eventos especiales', 'Ropa cómoda para el día a día', 
+            'Ropa llamativa para fiestas y eventos', 'Ropa abrigada para climas fríos', 
+            'Ropa ligera para climas cálidos', 'Ropa adecuada para la temporada de otoño', 
+            'Ropa fresca y colorida para primavera', 'Ropa hecha de materiales sostenibles', 
+            'Ropa hecha a mano con detalles únicos', 'Ropa con diseños tradicionales y culturales', 
+            'Ropa de alta gama y exclusiva', 'Ropa moderna y de estilo urbano', 
+            'Ropa con diseños retro y clásicos', 'Ropa de marcas reconocidas', 
+            'Ropa exclusiva de diseñadores famosos', 'Ropa hecha de algodón natural', 
+            'Ropa abrigada hecha de lana', 'Ropa elegante hecha de seda', 
+            'Ropa resistente hecha de cuero', 'Ropa hecha de mezclilla duradera', 
+            'Ropa con detalles de encaje', 'Ropa con bordados artesanales', 
+            'Ropa con estampados modernos', 'Ropa con detalles reflectantes', 
+            'Ropa resistente al agua', 'Ropa con corte ajustado', 
+            'Ropa con corte holgado y cómodo', 'Ropa en tonos neutros y clásicos', 
+            'Ropa en tonos vibrantes y llamativos', 'Ropa con diseños personalizados'
+        ]);
+
+	-- Insertar productos para la empresa 1: Moda Colombiana
+	INSERT INTO products (id, created_at, updated_at, deleted_at, name, short_description, long_description, price, stock, company_id, category_id, sub_category_id, discount_id, tag_id)
+    VALUES
+        (productos_ids[1], NOW(), NOW(), NULL, 'Camisa Lino', 'Camisa de lino para hombre', 'Camisa de lino 100% natural', 59.99, 100, empresas_ids[1], category_ids[1], NULL, NULL, NULL),
+        (productos_ids[2], NOW(), NOW(), NULL, 'Vestido Florido', 'Vestido con estampado floral', 'Vestido ligero y cómodo', 79.99, 80, empresas_ids[1], category_ids[3], NULL, NULL, NULL),
+        (productos_ids[3], NOW(), NOW(), NULL, 'Sombrero Vueltiao', 'Sombrero tradicional colombiano', 'Sombrero artesanal hecho a mano', 39.99, 50, empresas_ids[1], category_ids[7], NULL, NULL, NULL),
+        (productos_ids[4], NOW(), NOW(), NULL, 'Mochila Arhuaca', 'Mochila indígena artesanal', 'Mochila tejida por comunidades indígenas', 89.99, 40, empresas_ids[1], category_ids[9], NULL, NULL, NULL),
+        (productos_ids[5], NOW(), NOW(), NULL, 'Chaqueta Guajira', 'Chaqueta estilo guajiro', 'Chaqueta ligera con detalles tradicionales', 69.99, 60, empresas_ids[1], category_ids[13], NULL, NULL, NULL);
 EXCEPTION
     WHEN OTHERS THEN
         RAISE NOTICE 'Error en la transacción: %', SQLERRM;
