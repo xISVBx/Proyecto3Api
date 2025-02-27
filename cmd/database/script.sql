@@ -26,7 +26,7 @@ BEGIN
 	-- Generar IDs para productos
 	SELECT ARRAY(
 		SELECT gen_random_uuid()
-		FROM generate_series(1, 20)
+		FROM generate_series(1, 25)
 	) INTO productos_ids;
 
 	
@@ -1260,7 +1260,29 @@ BEGIN
         (productos_ids[2], NOW(), NOW(), NULL, 'Vestido Florido', 'Vestido con estampado floral', 'Vestido ligero y cómodo', 79.99, 80, empresas_ids[1], category_ids[3], NULL, NULL, NULL),
         (productos_ids[3], NOW(), NOW(), NULL, 'Sombrero Vueltiao', 'Sombrero tradicional colombiano', 'Sombrero artesanal hecho a mano', 39.99, 50, empresas_ids[1], category_ids[7], NULL, NULL, NULL),
         (productos_ids[4], NOW(), NOW(), NULL, 'Mochila Arhuaca', 'Mochila indígena artesanal', 'Mochila tejida por comunidades indígenas', 89.99, 40, empresas_ids[1], category_ids[9], NULL, NULL, NULL),
-        (productos_ids[5], NOW(), NOW(), NULL, 'Chaqueta Guajira', 'Chaqueta estilo guajiro', 'Chaqueta ligera con detalles tradicionales', 69.99, 60, empresas_ids[1], category_ids[13], NULL, NULL, NULL);
+        (productos_ids[5], NOW(), NOW(), NULL, 'Chaqueta Guajira', 'Chaqueta estilo guajiro', 'Chaqueta ligera con detalles tradicionales', 69.99, 60, empresas_ids[1], category_ids[13], NULL, NULL, NULL),
+		(productos_ids[6], NOW(), NOW(), NULL, 'Jeans Skinny', 'Jeans ajustados para mujer', 'Jeans de mezclilla elástica', 49.99, 120, empresas_ids[1], category_ids[5], NULL, NULL, NULL),
+    	(productos_ids[7], NOW(), NOW(), NULL, 'Zapatos de Cuero', 'Zapatos elegantes de cuero', 'Zapatos de cuero genuino para hombre', 89.99, 70, empresas_ids[1], category_ids[6], NULL, NULL, NULL),
+    	(productos_ids[8], NOW(), NOW(), NULL, 'Bufanda de Lana', 'Bufanda cálida para invierno', 'Bufanda hecha de lana 100% natural', 29.99, 90, empresas_ids[1], category_ids[14], NULL, NULL, NULL),
+    	(productos_ids[9], NOW(), NOW(), NULL, 'Bolso de Mano', 'Bolso elegante para mujer', 'Bolso de cuero con detalles bordados', 59.99, 50, empresas_ids[1], category_ids[7], NULL, NULL, NULL),
+    	(productos_ids[10], NOW(), NOW(), NULL, 'Camisa Formal', 'Camisa de vestir para hombre', 'Camisa de algodón con corte moderno', 55.99, 80, empresas_ids[1], category_ids[1], NULL, NULL, NULL),
+    	(productos_ids[11], NOW(), NOW(), NULL, 'Reloj de Madera', 'Reloj ecológico', 'Reloj artesanal hecho de madera reciclada', 79.99, 30, empresas_ids[1], category_ids[7], NULL, NULL, NULL),
+    	(productos_ids[12], NOW(), NOW(), NULL, 'Falda Plisada', 'Falda de moda', 'Falda plisada en varios colores', 45.99, 100, empresas_ids[1], category_ids[12], NULL, NULL, NULL),
+    	(productos_ids[13], NOW(), NOW(), NULL, 'Sudadera Oversize', 'Sudadera de gran tamaño', 'Sudadera cómoda y holgada', 39.99, 110, empresas_ids[1], category_ids[10], NULL, NULL, NULL),
+    	(productos_ids[14], NOW(), NOW(), NULL, 'Pantalón Chino', 'Pantalón casual', 'Pantalón chino con corte slim', 59.99, 75, empresas_ids[1], category_ids[2], NULL, NULL, NULL),
+    	(productos_ids[15], NOW(), NOW(), NULL, 'Short Deportivo', 'Shorts transpirables', 'Shorts ideales para hacer ejercicio', 29.99, 95, empresas_ids[1], category_ids[11], NULL, NULL, NULL),
+    	(productos_ids[16], NOW(), NOW(), NULL, 'Blusa Satinada', 'Blusa elegante para mujer', 'Blusa satinada con cuello alto', 42.99, 85, empresas_ids[1], category_ids[12], NULL, NULL, NULL),
+    	(productos_ids[17], NOW(), NOW(), NULL, 'Abrigo de Invierno', 'Abrigo cálido', 'Abrigo grueso para climas fríos', 99.99, 40, empresas_ids[1], category_ids[13], NULL, NULL, NULL),
+    	(productos_ids[18], NOW(), NOW(), NULL, 'Traje Sastre', 'Traje de vestir', 'Traje de dos piezas para hombre', 129.99, 25, empresas_ids[1], category_ids[9], NULL, NULL, NULL),
+    	(productos_ids[19], NOW(), NOW(), NULL, 'Zapatos Deportivos', 'Zapatillas cómodas', 'Zapatillas de running con amortiguación', 69.99, 60, empresas_ids[1], category_ids[6], NULL, NULL, NULL),
+    	(productos_ids[20], NOW(), NOW(), NULL, 'Ropa de Baño', 'Bikini moderno', 'Bikini con estampado tropical', 49.99, 90, empresas_ids[1], category_ids[16], NULL, NULL, NULL),
+    	(productos_ids[21], NOW(), NOW(), NULL, 'Pijama de Algodón', 'Pijama cómoda', 'Pijama suave y transpirable', 34.99, 100, empresas_ids[1], category_ids[17], NULL, NULL, NULL),
+    	(productos_ids[22], NOW(), NOW(), NULL, 'Ropa Deportiva', 'Conjunto deportivo', 'Ropa ligera y elástica para deporte', 59.99, 80, empresas_ids[1], category_ids[15], NULL, NULL, NULL),
+    	(productos_ids[23], NOW(), NOW(), NULL, 'Ropa de Lujo', 'Vestido de gala', 'Vestido de alta costura', 199.99, 10, empresas_ids[1], category_ids[30], NULL, NULL, NULL),
+    	(productos_ids[24], NOW(), NOW(), NULL, 'Sombrero Panamá', 'Sombrero clásico', 'Sombrero elegante de paja toquilla', 79.99, 20, empresas_ids[1], category_ids[7], NULL, NULL, NULL),
+    	(productos_ids[25], NOW(), NOW(), NULL, 'Ropa Vintage', 'Chaqueta retro', 'Chaqueta con diseño de los años 90', 89.99, 45, empresas_ids[1], category_ids[32], NULL, NULL, NULL);
+
+
 EXCEPTION
     WHEN OTHERS THEN
         RAISE NOTICE 'Error en la transacción: %', SQLERRM;

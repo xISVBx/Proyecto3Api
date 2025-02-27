@@ -9,6 +9,7 @@ type Services struct {
 	UserService      *UserService
 	RoleService      *RoleService
 	CategorieService *CategorieService
+	ProductService   *ProductService
 }
 
 // Función para inicializar todos los servicios
@@ -17,5 +18,6 @@ func InitServices(repos *infraestructure.Infraestructure) *Services {
 		UserService:      NewUserService(repos.UserRepo, repos.RoleRepo),
 		RoleService:      NewRoleService(repos.RoleRepo),
 		CategorieService: NewCategorieService(repos.CategoryRepo),
+		ProductService: NewProductService(repos.ProductRepo),
 	}
 }

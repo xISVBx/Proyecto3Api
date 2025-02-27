@@ -172,6 +172,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/products": {
+            "get": {
+                "description": "Retorna un listado de los productos aplicando filtros.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener todos los productos por filtros",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Texto de búsqueda",
+                        "name": "SearchQuery",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/dtos.ProductResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/register": {
             "post": {
                 "description": "Crea una nueva cuenta para el usuario con los datos proporcionados.",
@@ -375,6 +453,44 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.ProductResponse": {
+            "type": "object",
+            "properties": {
+                "categoryID": {
+                    "type": "string"
+                },
+                "companyID": {
+                    "type": "string"
+                },
+                "discountID": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "longDescription": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "shortDescription": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                },
+                "subCategoryID": {
+                    "type": "string"
+                },
+                "tagID": {
                     "type": "string"
                 }
             }

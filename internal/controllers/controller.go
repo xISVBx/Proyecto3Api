@@ -8,6 +8,7 @@ type Controllers struct {
 	UserController     *UserController
 	RoleController     *RoleController
 	CategoryController *CategoryController
+	ProductController  *ProductController
 }
 
 // Función para inicializar todos los controladores
@@ -17,5 +18,6 @@ func InitControllers(services *services.Services) *Controllers {
 		UserController:     NewUserController(services.UserService),
 		RoleController:     NewRoleController(services.RoleService),
 		CategoryController: NewCategoryController(services.CategorieService),
+		ProductController:  NewProductController(services.ProductService),
 	}
 }

@@ -16,6 +16,31 @@ definitions:
       password:
         type: string
     type: object
+  dtos.ProductResponse:
+    properties:
+      categoryID:
+        type: string
+      companyID:
+        type: string
+      discountID:
+        type: string
+      id:
+        type: string
+      longDescription:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      shortDescription:
+        type: string
+      stock:
+        type: integer
+      subCategoryID:
+        type: string
+      tagID:
+        type: string
+    type: object
   dtos.RegisterRequest:
     properties:
       address:
@@ -154,6 +179,49 @@ paths:
       summary: Iniciar sesión
       tags:
       - Auth
+  /api/v1/products:
+    get:
+      consumes:
+      - application/json
+      description: Retorna un listado de los productos aplicando filtros.
+      parameters:
+      - description: Texto de búsqueda
+        in: query
+        name: SearchQuery
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtos.ProductResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Obtener todos los productos por filtros
+      tags:
+      - Products
   /api/v1/register:
     post:
       consumes:
