@@ -3,6 +3,7 @@ package controllers
 import (
 	"col-moda/internal/domain/models"
 	"col-moda/internal/services"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,8 @@ func NewRoleController(s *services.RoleService) *RoleController {
 // @Failure 409 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/roles [get]
 func (ct RoleController) FindAllRoles(c *gin.Context) {
+
+	fmt.Println("entro")
 
 	roles, aErr := ct.roleS.FindAllRoles()
 

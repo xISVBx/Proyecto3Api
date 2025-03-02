@@ -96,6 +96,11 @@ const docTemplate = `{
         },
         "/api/v1/login": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Permite a los usuarios autenticarse en la plataforma.",
                 "consumes": [
                     "application/json"
@@ -448,11 +453,18 @@ const docTemplate = `{
         },
         "dtos.LoginDto": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 }
             }

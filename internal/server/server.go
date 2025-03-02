@@ -20,6 +20,7 @@ type Server struct {
 	Controllers *controllers.Controllers
 }
 
+
 func NewServer(db *gorm.DB) *Server {
 	
 	// 🔹 Inicializar repositorios, servicios y controladores

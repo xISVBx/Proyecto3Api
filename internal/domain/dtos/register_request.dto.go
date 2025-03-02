@@ -15,13 +15,13 @@ type RegisterRequest struct{
 	Phone string
 }
 
-func RegisterRequestToUserEntity(registerRequest *RegisterRequest, roleId uuid.UUID) entities.User{
+func RegisterRequestToUserEntity(registerRequest *RegisterRequest, roleId uuid.UUID, hashedPassword string) entities.User{
 	return entities.User{
 		ID: uuid.New(),
 		Name: registerRequest.Name,
 		LastName: registerRequest.LastName,
 		Email: registerRequest.Email,
-		Password: registerRequest.Password,
+		HashedPassword: hashedPassword,
 		CityID: registerRequest.CityId,
 		Address: registerRequest.Address,
 		Phone: registerRequest.Phone,

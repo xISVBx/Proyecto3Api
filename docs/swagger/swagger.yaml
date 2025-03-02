@@ -15,6 +15,11 @@ definitions:
         type: string
       password:
         type: string
+      token:
+        type: string
+    required:
+    - email
+    - password
     type: object
   dtos.ProductResponse:
     properties:
@@ -176,6 +181,8 @@ paths:
             - properties:
                 data: {}
               type: object
+      security:
+      - BearerAuth: []
       summary: Iniciar sesión
       tags:
       - Auth

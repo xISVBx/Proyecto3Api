@@ -4,6 +4,7 @@ import (
 	"col-moda/internal/configuration"
 	"col-moda/internal/domain/dtos"
 	"time"
+	"errors"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -26,4 +27,27 @@ func CreateUserToken(user dtos.UserGetDto) (*string, error) {
 	}
 
 	return &signedToken, nil
+}
+
+func VerifyToken(tokenString string) (jwt.MapClaims, error) {
+	// Parsear el token
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Verificar que el método de firma sea HMAC
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("método de firma inválido")
+		}
+		return configuration.AppConfiguration.Jwt, nil // Usar la clave secreta
+	})
+
+	if err != nil || !token.Valid {
+		return nil, errors.New("token inválido o expirado")
+	}
+
+	// Extraer claims
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, errors.New("no se pudieron obtener los claims del token")
+	}
+
+	return claims, nil
 }

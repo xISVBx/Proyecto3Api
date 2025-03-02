@@ -1,6 +1,7 @@
 package server
 
 import (
+	//middleware "col-moda/internal/server/middlewares"
 	v1_routes "col-moda/internal/server/v1/routes"
 	"net/http"
 
@@ -20,6 +21,9 @@ func (s *Server) RegisterRoutes() (http.Handler, error) {
 		AllowCredentials: true, // Enable cookies/auth
 	}))
 
+	//protected := r.Group("/api/v1")
+	//protected.Use(middleware.AuthMiddleware())
+
 	//📄Swagger
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -32,6 +36,8 @@ func (s *Server) RegisterRoutes() (http.Handler, error) {
 		v1_routes.CategoryRoutes(v1, *s.Controllers.CategoryController)
 		v1_routes.ProductRoutes(v1, *s.Controllers.ProductController)
 	}
+
+	
 
 	return r, nil
 }

@@ -4,6 +4,7 @@ import (
 	"col-moda/internal/domain/dtos"
 	"col-moda/internal/domain/models"
 	"col-moda/internal/services"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,18 +27,36 @@ func NewUserController(s *services.UserService) *UserController {
 // @Accept json
 // @Produce json
 // @Param request body dtos.LoginDto true "Credenciales de usuario"
+// @Security BearerAuth
 // @Success 200 {object} models.AppResponse{data=string}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 401 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/login [post]
 func (ct UserController) Login(c *gin.Context) {
 	var dto dtos.LoginDto
-	err := c.Bind(&dto)
+	err := c.ShouldBindJSON(&dto)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.ResError("Invalid data"))
-		return
+		for k, v := range c.Request.Header {
+			fmt.Printf("%s: %s\n", k, v)
+		}
+		token := c.GetHeader("Authorization")
+		fmt.Println("Este es el token")
+		fmt.Println(token)
+		if token == "" {
+			c.JSON(http.StatusBadRequest, models.ResError("Email and Password are required, or provide a valid Token"))
+			return
+		}
 	}
+
+	token := c.GetHeader("Authorization")
+
+	fmt.Println("Este es el token")
+
+	for k, v := range c.Request.Header {
+		fmt.Printf("%s: %s\n", k, v)
+	}
+	dto.Token = token
 
 	jwt, aErr := ct.userService.LoginService(dto)
 

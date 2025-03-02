@@ -1,6 +1,7 @@
 package dtos
 
 type LoginDto struct {
-	Email    string
-	Password string
+    Email    string `json:"email" binding:"required,email"`
+    Password string `json:"password,omitempty" binding:"required"`
+    Token    string `json:"token,omitempty"`
 }
