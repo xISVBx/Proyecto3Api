@@ -9,6 +9,22 @@ definitions:
       name:
         type: string
     type: object
+  dtos.CityResponse:
+    properties:
+      cityName:
+        type: string
+      departmentID:
+        type: integer
+      id:
+        type: integer
+    type: object
+  dtos.DepartmentResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   dtos.LoginDto:
     properties:
       email:
@@ -141,6 +157,106 @@ paths:
       summary: Obtener todas las categorias
       tags:
       - Categories
+  /api/v1/cities:
+    get:
+      consumes:
+      - application/json
+      description: Retorna un listado de las ciudades filtradas por departamento o
+        nombre de ciudad.
+      parameters:
+      - description: ID del departamento (opcional)
+        in: query
+        name: department_id
+        type: integer
+      - description: Nombre de la ciudad (opcional)
+        in: query
+        name: city_name
+        type: string
+      - description: ID de la ciudad (opcional)
+        in: query
+        name: city_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtos.CityResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Obtener todas las ciudades de la aplicación
+      tags:
+      - Cities
+  /api/v1/departments:
+    get:
+      consumes:
+      - application/json
+      description: Retorna un listado de departamentos con filtros opcionales como
+        ID y nombre.
+      parameters:
+      - description: ID del departamento (opcional)
+        in: query
+        name: department_id
+        type: integer
+      - description: Nombre del departamento (opcional)
+        in: query
+        name: department_name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtos.DepartmentResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Obtener todos los departamentos filtrados
+      tags:
+      - Departments
   /api/v1/login:
     post:
       consumes:

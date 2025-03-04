@@ -12,7 +12,7 @@ type CategoryResponse struct {
 	Descripcion string
 }
 
-func CategoriesResponseFromCategories(categories []entities.Category) []CategoryResponse {
+func CategoriesResponseFromEntitie(categories []entities.Category) []CategoryResponse {
 	var categoriesResponse []CategoryResponse
 	for _, category := range categories {
 		categoriesResponse = append(categoriesResponse, CategoryResponse{

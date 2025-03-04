@@ -20,20 +20,20 @@ type ProductResponse struct {
 	TagID            uuid.UUID
 }
 
-func ProductsResponseFromProducts(products []entities.Product) []ProductResponse {
+func ProductsResponseFromEntities(products []entities.Product) []ProductResponse {
 	var productsResponse []ProductResponse
 	for _, product := range products {
 		productsResponse = append(productsResponse, ProductResponse{
-			ID: product.ID,
-			Name: product.Name,
+			ID:               product.ID,
+			Name:             product.Name,
 			ShortDescription: product.ShortDescription,
-			LongDescription: product.LongDescription,
-			Price: product.Price,
-			Stock: product.Stock,
-			CompanyID: product.CompanyID,
-			SubCategoryID: product.SubCategoryID,
-			DiscountID: product.DiscountID,
-			TagID: product.TagID,
+			LongDescription:  product.LongDescription,
+			Price:            product.Price,
+			Stock:            product.Stock,
+			CompanyID:        product.CompanyID,
+			SubCategoryID:    product.SubCategoryID,
+			DiscountID:       product.DiscountID,
+			TagID:            product.TagID,
 		})
 	}
 	return productsResponse

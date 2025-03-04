@@ -23,7 +23,7 @@ func (s CategorieService) FindAllCategories() ([]dtos.CategoryResponse, *models.
 		return nil, models.NewServerError(err)
 	}
 
-	categoryDto := dtos.CategoriesResponseFromCategories(categories)
+	categoryDto := dtos.CategoriesResponseFromEntitie(categories)
 
 	return categoryDto, nil
 }

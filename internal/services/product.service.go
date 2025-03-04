@@ -23,7 +23,7 @@ func (s ProductService) FindProductsByFilters(productsRequest dtos.ProductReques
 		return nil, models.NewServerError(err)
 	}
 
-	productsResponse := dtos.ProductsResponseFromProducts(products)
+	productsResponse := dtos.ProductsResponseFromEntities(products)
 
 	return productsResponse, nil
 }

@@ -42,4 +42,10 @@ watch:
 		air -c .air.toml; \
 	fi
 
+# Alias para generar estructura de repositorio, servicio y controlador
+generate:
+	bash cmd/scripts/generate.sh $(name)
+
+
+
 .PHONY: all build run test clean watch swag
