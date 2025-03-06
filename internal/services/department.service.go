@@ -14,7 +14,7 @@ func NewDepartmentService(repo *repositories.DepartmentRepository) *DepartmentSe
 	return &DepartmentService{repo: repo}
 }
 
-func (s DepartmentService) FindAllDepartmentsByFilters(dto dtos.DepartmentRequest) ([]dtos.DepartmentResponse, *models.AppError) {
+func (s DepartmentService) FindAllDepartmentsByFilters(dto dtos.DepartmentRequestDto) ([]dtos.DepartmentResponseDto, *models.AppError) {
 	departments, err := s.repo.FindAllDepartmentsByFilters(dto)
 	if err != nil {
 		return nil, models.NewServerError(err)

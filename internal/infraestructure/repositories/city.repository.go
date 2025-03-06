@@ -19,7 +19,7 @@ func NewCityRepository(db *gorm.DB) *CityRepository {
 	}
 }
 
-func (r CityRepository) FindCitiesByFilters(cityRequest dtos.CityRequest) ([]entities.City, error) {
+func (r CityRepository) FindCitiesByFilters(cityRequest dtos.CityRequestDto) ([]entities.City, error) {
 	var cities []entities.City
 	query := r.db
 

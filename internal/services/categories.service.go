@@ -16,7 +16,7 @@ func NewCategorieService(r *repositories.CategoryRepository) *CategorieService {
 	}
 }
 
-func (s CategorieService) FindAllCategories() ([]dtos.CategoryResponse, *models.AppError) {
+func (s CategorieService) FindAllCategories() ([]dtos.CategoryResponseDto, *models.AppError) {
 	categories, err := s.roleR.FindAllCategories()
 
 	if err != nil {

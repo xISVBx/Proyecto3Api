@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type ProductResponse struct {
+type ProductResponseDto struct {
 	ID               uuid.UUID
 	Name             string
 	ShortDescription string
@@ -20,10 +20,10 @@ type ProductResponse struct {
 	TagID            uuid.UUID
 }
 
-func ProductsResponseFromEntities(products []entities.Product) []ProductResponse {
-	var productsResponse []ProductResponse
+func ProductsResponseDtoFromEntities(products []entities.Product) []ProductResponseDto {
+	var productsResponse []ProductResponseDto
 	for _, product := range products {
-		productsResponse = append(productsResponse, ProductResponse{
+		productsResponse = append(productsResponse, ProductResponseDto{
 			ID:               product.ID,
 			Name:             product.Name,
 			ShortDescription: product.ShortDescription,

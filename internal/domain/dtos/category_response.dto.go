@@ -6,16 +6,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type CategoryResponse struct {
+type CategoryResponseDto struct {
 	ID          uuid.UUID
 	Name        string
 	Descripcion string
 }
 
-func CategoriesResponseFromEntitie(categories []entities.Category) []CategoryResponse {
-	var categoriesResponse []CategoryResponse
+func CategoriesResponseFromEntitie(categories []entities.Category) []CategoryResponseDto {
+	var categoriesResponse []CategoryResponseDto
 	for _, category := range categories {
-		categoriesResponse = append(categoriesResponse, CategoryResponse{
+		categoriesResponse = append(categoriesResponse, CategoryResponseDto{
 			ID:          category.ID,
 			Name:        category.Name,
 			Descripcion: category.Description,

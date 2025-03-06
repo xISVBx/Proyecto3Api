@@ -14,6 +14,7 @@ type Infraestructure struct {
 	CategoryRepo   *repositories.CategoryRepository
 	ProductRepo    *repositories.ProductRepository
 	CityRepo       *repositories.CityRepository
+	CompanyRepo   *repositories.CompanyRepository
 }
 
 // Función para inicializar todos los repositorios
@@ -24,5 +25,6 @@ func InitInfraestructure(db *gorm.DB) *Infraestructure {
 		CategoryRepo: repositories.NewCategoriesRepository(db),
 		ProductRepo:  repositories.NewProductRepository(db),
 		CityRepo:     repositories.NewCityRepository(db),
+		CompanyRepo: repositories.NewCompanyRepository(db),
 	}
 }

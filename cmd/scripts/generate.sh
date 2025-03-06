@@ -78,6 +78,23 @@ func New${NAME}Controller(service *services.${NAME}Service) *${NAME}Controller {
 EOL
 echo "✅ Controlador creado: internal/controllers/${NAME_LOWER}.controller.go"
 
+# Crear la ruta
+mkdir -p internal/routes/v1
+cat > internal/routes/v1/${NAME_LOWER}.route.go <<EOL
+package v1_routes
+
+import (
+	"$MODULE_NAME/internal/controllers"
+	"github.com/gin-gonic/gin"
+)
+
+func ${NAME}Routes(r *gin.RouterGroup, c controllers.${NAME}Controller) {
+	// Definir las rutas aquí
+}
+EOL
+
+echo "✅ Ruta creada: internal/routes/v1/${NAME_LOWER}.route.go"
+
 insert_if_not_exists() {
     local FILE="$1"
     local SEARCH="$2"

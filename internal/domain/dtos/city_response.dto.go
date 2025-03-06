@@ -2,20 +2,20 @@ package dtos
 
 import "col-moda/internal/domain/entities"
 
-type CityResponse struct {
-	ID          int    
-	DepartmentID int    
-	CityName    string 
+type CityResponseDto struct {
+	ID           int
+	DepartmentID int
+	CityName     string
 }
 
-func CitiesResponseFromEntities(e []entities.City) []CityResponse {
-	var cityResponse []CityResponse
+func CitiesResponseFromEntities(e []entities.City) []CityResponseDto {
+	var cityResponse []CityResponseDto
 	for _, city := range e {
-		cityResponse = append(cityResponse, CityResponse{
-			ID:          city.ID,
+		cityResponse = append(cityResponse, CityResponseDto{
+			ID:           city.ID,
 			DepartmentID: city.DepartmentID,
-			CityName:    city.Name,
+			CityName:     city.Name,
 		})
 	}
-	return cityResponse;
-}	
+	return cityResponse
+}

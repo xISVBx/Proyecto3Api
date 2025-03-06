@@ -2,14 +2,14 @@ package dtos
 
 import "col-moda/internal/domain/entities"
 
-type RegisterResponse struct {
+type RegisterResponseDto struct {
 	Name     string
 	LastName string
 	Email    string
 }
 
-func RegisterResponseFromEntitie(user entities.User) RegisterResponse {
-	return RegisterResponse{
+func RegisterResponseDtoFromEntitie(user entities.User) RegisterResponseDto {
+	return RegisterResponseDto{
 		Name:     user.Name,
 		LastName: user.LastName,
 		Email:    user.Email,

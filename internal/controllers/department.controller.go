@@ -17,21 +17,10 @@ func NewDepartmentController(service *services.DepartmentService) *DepartmentCon
 	return &DepartmentController{service: service}
 }
 
-// FindAllDepartmentsByFilters Obtiene una lista de departamentos filtrados
-// @Summary Obtener todos los departamentos filtrados
-// @Description Retorna un listado de departamentos con filtros opcionales como ID y nombre.
-// @Tags Departments
-// @Accept json
-// @Produce json
-// @Param department_id query int false "ID del departamento (opcional)"
-// @Param department_name query string false "Nombre del departamento (opcional)"
-// @Success 200 {object} models.AppResponse{data=[]dtos.DepartmentResponse}
-// @Failure 400 {object} models.AppResponse{data=interface{}}
-// @Failure 409 {object} models.AppResponse{data=interface{}}
-// @Router /api/v1/departments [get]
+
 func (ct DepartmentController) FindAllDepartmentsByFilters(c *gin.Context) {
 
-	var dto dtos.DepartmentRequest
+	var dto dtos.DepartmentRequestDto
 	err := c.ShouldBindQuery(&dto)
 
 	if err != nil {

@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  dtos.CategoryResponse:
+  dtos.CategoryResponseDto:
     properties:
       descripcion:
         type: string
@@ -9,7 +9,7 @@ definitions:
       name:
         type: string
     type: object
-  dtos.CityResponse:
+  dtos.CityResponseDto:
     properties:
       cityName:
         type: string
@@ -18,11 +18,11 @@ definitions:
       id:
         type: integer
     type: object
-  dtos.DepartmentResponse:
+  dtos.CompanyResponseDto:
     properties:
+      company_name:
+        type: string
       id:
-        type: integer
-      name:
         type: string
     type: object
   dtos.LoginDto:
@@ -37,7 +37,7 @@ definitions:
     - email
     - password
     type: object
-  dtos.ProductResponse:
+  dtos.ProductResponseDto:
     properties:
       categoryID:
         type: string
@@ -62,15 +62,15 @@ definitions:
       tagID:
         type: string
     type: object
-  dtos.RegisterRequest:
+  dtos.RegisterRequestDto:
     properties:
       address:
         type: string
-      cityId:
+      city_id:
         type: integer
       email:
         type: string
-      lastName:
+      last_name:
         type: string
       name:
         type: string
@@ -78,8 +78,13 @@ definitions:
         type: string
       phone:
         type: string
+    required:
+    - email
+    - last_name
+    - name
+    - password
     type: object
-  dtos.RegisterResponse:
+  dtos.RegisterResponseDto:
     properties:
       email:
         type: string
@@ -135,7 +140,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/dtos.CategoryResponse'
+                    $ref: '#/definitions/dtos.CategoryResponseDto'
                   type: array
               type: object
         "400":
@@ -187,7 +192,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/dtos.CityResponse'
+                    $ref: '#/definitions/dtos.CityResponseDto'
                   type: array
               type: object
         "400":
@@ -209,20 +214,19 @@ paths:
       summary: Obtener todas las ciudades de la aplicación
       tags:
       - Cities
-  /api/v1/departments:
+  /api/v1/companies:
     get:
       consumes:
       - application/json
-      description: Retorna un listado de departamentos con filtros opcionales como
-        ID y nombre.
+      description: Obtiene una lista de empresas aplicando filtros como ID o nombre
       parameters:
-      - description: ID del departamento (opcional)
+      - description: ID de la empresa (UUID)
         in: query
-        name: department_id
-        type: integer
-      - description: Nombre del departamento (opcional)
+        name: id
+        type: string
+      - description: Nombre de la empresa
         in: query
-        name: department_name
+        name: company_name
         type: string
       produces:
       - application/json
@@ -235,7 +239,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/dtos.DepartmentResponse'
+                    $ref: '#/definitions/dtos.CompanyResponseDto'
                   type: array
               type: object
         "400":
@@ -246,17 +250,17 @@ paths:
             - properties:
                 data: {}
               type: object
-        "409":
-          description: Conflict
+        "500":
+          description: Internal Server Error
           schema:
             allOf:
             - $ref: '#/definitions/models.AppResponse'
             - properties:
                 data: {}
               type: object
-      summary: Obtener todos los departamentos filtrados
+      summary: Busca empresas por filtros opcionales
       tags:
-      - Departments
+      - Empresas
   /api/v1/login:
     post:
       consumes:
@@ -323,7 +327,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/dtos.ProductResponse'
+                    $ref: '#/definitions/dtos.ProductResponseDto'
                   type: array
               type: object
         "400":
@@ -356,7 +360,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dtos.RegisterRequest'
+          $ref: '#/definitions/dtos.RegisterRequestDto'
       produces:
       - application/json
       responses:
@@ -367,7 +371,7 @@ paths:
             - $ref: '#/definitions/models.AppResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/dtos.RegisterResponse'
+                  $ref: '#/definitions/dtos.RegisterResponseDto'
               type: object
         "400":
           description: Bad Request

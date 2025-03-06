@@ -16,14 +16,14 @@ func NewProductService(r *repositories.ProductRepository) *ProductService {
 	}
 }
 
-func (s ProductService) FindProductsByFilters(productsRequest dtos.ProductRequest) ([]dtos.ProductResponse, *models.AppError) {
+func (s ProductService) FindProductsByFilters(productsRequest dtos.ProductRequestDto) ([]dtos.ProductResponseDto, *models.AppError) {
 	products, err := s.productR.FindProductsByFilters(productsRequest)
 
 	if err != nil {
 		return nil, models.NewServerError(err)
 	}
 
-	productsResponse := dtos.ProductsResponseFromEntities(products)
+	productsResponse := dtos.ProductsResponseDtoFromEntities(products)
 
 	return productsResponse, nil
 }

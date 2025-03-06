@@ -75,13 +75,13 @@ func (ct UserController) Login(c *gin.Context) {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Param request body dtos.RegisterRequest true "Datos del usuario"
-// @Success 201 {object} models.AppResponse{data=dtos.RegisterResponse}
+// @Param request body dtos.RegisterRequestDto true "Datos del usuario"
+// @Success 201 {object} models.AppResponse{data=dtos.RegisterResponseDto}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 409 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/register [post]
 func (ct UserController) Register(c *gin.Context) {
-	var dto dtos.RegisterRequest
+	var dto dtos.RegisterRequestDto
 	err := c.Bind(&dto)
 
 	if err != nil {

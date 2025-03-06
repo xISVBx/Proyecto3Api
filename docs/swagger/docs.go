@@ -51,7 +51,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/dtos.CategoryResponse"
+                                                "$ref": "#/definitions/dtos.CategoryResponseDto"
                                             }
                                         }
                                     }
@@ -141,7 +141,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/dtos.CityResponse"
+                                                "$ref": "#/definitions/dtos.CityResponseDto"
                                             }
                                         }
                                     }
@@ -184,9 +184,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/departments": {
+        "/api/v1/companies": {
             "get": {
-                "description": "Retorna un listado de departamentos con filtros opcionales como ID y nombre.",
+                "description": "Obtiene una lista de empresas aplicando filtros como ID o nombre",
                 "consumes": [
                     "application/json"
                 ],
@@ -194,20 +194,20 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Departments"
+                    "Empresas"
                 ],
-                "summary": "Obtener todos los departamentos filtrados",
+                "summary": "Busca empresas por filtros opcionales",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "ID del departamento (opcional)",
-                        "name": "department_id",
+                        "type": "string",
+                        "description": "ID de la empresa (UUID)",
+                        "name": "id",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Nombre del departamento (opcional)",
-                        "name": "department_name",
+                        "description": "Nombre de la empresa",
+                        "name": "company_name",
                         "in": "query"
                     }
                 ],
@@ -225,7 +225,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/dtos.DepartmentResponse"
+                                                "$ref": "#/definitions/dtos.CompanyResponseDto"
                                             }
                                         }
                                     }
@@ -249,8 +249,8 @@ const docTemplate = `{
                             ]
                         }
                     },
-                    "409": {
-                        "description": "Conflict",
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "allOf": [
                                 {
@@ -386,7 +386,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/dtos.ProductResponse"
+                                                "$ref": "#/definitions/dtos.ProductResponseDto"
                                             }
                                         }
                                     }
@@ -449,7 +449,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.RegisterRequest"
+                            "$ref": "#/definitions/dtos.RegisterRequestDto"
                         }
                     }
                 ],
@@ -465,7 +465,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dtos.RegisterResponse"
+                                            "$ref": "#/definitions/dtos.RegisterResponseDto"
                                         }
                                     }
                                 }
@@ -611,7 +611,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dtos.CategoryResponse": {
+        "dtos.CategoryResponseDto": {
             "type": "object",
             "properties": {
                 "descripcion": {
@@ -625,7 +625,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.CityResponse": {
+        "dtos.CityResponseDto": {
             "type": "object",
             "properties": {
                 "cityName": {
@@ -639,13 +639,13 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.DepartmentResponse": {
+        "dtos.CompanyResponseDto": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
+                "company_name": {
+                    "type": "string"
                 },
-                "name": {
+                "id": {
                     "type": "string"
                 }
             }
@@ -668,7 +668,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.ProductResponse": {
+        "dtos.ProductResponseDto": {
             "type": "object",
             "properties": {
                 "categoryID": {
@@ -706,19 +706,25 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.RegisterRequest": {
+        "dtos.RegisterRequestDto": {
             "type": "object",
+            "required": [
+                "email",
+                "last_name",
+                "name",
+                "password"
+            ],
             "properties": {
                 "address": {
                     "type": "string"
                 },
-                "cityId": {
+                "city_id": {
                     "type": "integer"
                 },
                 "email": {
                     "type": "string"
                 },
-                "lastName": {
+                "last_name": {
                     "type": "string"
                 },
                 "name": {
@@ -732,7 +738,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.RegisterResponse": {
+        "dtos.RegisterResponseDto": {
             "type": "object",
             "properties": {
                 "email": {

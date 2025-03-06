@@ -6,6 +6,7 @@ import (
 
 // Estructura que contiene todos los servicios
 type Services struct {
+	CompanyService    *CompanyService
 	DepartmentService *DepartmentService
 	UserService       *UserService
 	RoleService       *RoleService
@@ -22,5 +23,6 @@ func InitServices(repos *infraestructure.Infraestructure) *Services {
 		CategorieService: NewCategorieService(repos.CategoryRepo),
 		ProductService:   NewProductService(repos.ProductRepo),
 		CityService:      NewCityService(repos.CityRepo),
+		CompanyService:   NewCompanyService(repos.CompanyRepo),
 	}
 }

@@ -16,7 +16,7 @@ func NewCityService(r *repositories.CityRepository) *CityService {
 	}
 }
 
-func (s CityService) FindCitiesByFilters(cityRequest dtos.CityRequest) ([]dtos.CityResponse, *models.AppError) {
+func (s CityService) FindCitiesByFilters(cityRequest dtos.CityRequestDto) ([]dtos.CityResponseDto, *models.AppError) {
 	cities, err := s.cityR.FindCitiesByFilters(cityRequest)
 
 	if err != nil {

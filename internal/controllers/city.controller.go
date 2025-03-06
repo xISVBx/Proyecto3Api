@@ -28,13 +28,13 @@ func NewCityController(s *services.CityService) *CityController {
 // @Param department_id query int false "ID del departamento (opcional)"
 // @Param city_name query string false "Nombre de la ciudad (opcional)"
 // @Param city_id query int false "ID de la ciudad (opcional)"
-// @Success 200 {object} models.AppResponse{data=[]dtos.CityResponse}
+// @Success 200 {object} models.AppResponse{data=[]dtos.CityResponseDto}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 409 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/cities [get]
 func (ct CityController) FindCitiesByFilters(c *gin.Context) {
 
-	var dto dtos.CityRequest
+	var dto dtos.CityRequestDto
 	err := c.ShouldBindQuery(&dto)
 
 	if err != nil {

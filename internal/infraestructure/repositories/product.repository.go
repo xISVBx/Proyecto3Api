@@ -20,9 +20,8 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 	}
 }
 
-func (r ProductRepository) FindProductsByFilters(productsRequest dtos.ProductRequest) ([]entities.Product, error) {
+func (r ProductRepository) FindProductsByFilters(productsRequest dtos.ProductRequestDto) ([]entities.Product, error) {
 	var products []entities.Product
-	
 
 	query := `
     SELECT * FROM products 

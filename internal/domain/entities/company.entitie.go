@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -12,7 +10,5 @@ type Company struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey"`
 	CompanyName string
 	Description string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
 }
 

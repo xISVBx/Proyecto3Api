@@ -26,13 +26,13 @@ func NewProductController(s *services.ProductService) *ProductController {
 // @Accept json
 // @Produce json
 // @Param SearchQuery query string false "Texto de búsqueda"
-// @Success 200 {object} models.AppResponse{data=[]dtos.ProductResponse}
+// @Success 200 {object} models.AppResponse{data=[]dtos.ProductResponseDto}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 409 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/products [get]
 func (ct ProductController) FindProductsByFilters(c *gin.Context) {
 
-	var dto dtos.ProductRequest
+	var dto dtos.ProductRequestDto
 
 	err := c.Bind(&dto)
 
@@ -41,13 +41,13 @@ func (ct ProductController) FindProductsByFilters(c *gin.Context) {
 		return
 	}
 
-	roles, aErr := ct.productS.FindProductsByFilters(dto)
+	products, aErr := ct.productS.FindProductsByFilters(dto)
 
 	if aErr != nil {
 		c.JSON(aErr.Status, models.ResFromApp(aErr))
 		return
 	}
 
-	response := models.ResSuccess(roles)
+	response := models.ResSuccess(products)
 	c.JSON(http.StatusOK, response)
 }

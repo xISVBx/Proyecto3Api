@@ -50,7 +50,7 @@ func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError)
 	return token, nil
 }
 
-func (s UserService) RegisterService(registerRequest dtos.RegisterRequest) (*dtos.RegisterResponse, *models.AppError) {
+func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*dtos.RegisterResponseDto, *models.AppError) {
 
 	user, err := s.userR.GetUserByEmail(registerRequest.Email)
 
@@ -76,7 +76,7 @@ func (s UserService) RegisterService(registerRequest dtos.RegisterRequest) (*dto
 
 	registerRequest.Password = ""
 
-	newUser := dtos.RegisterRequestToUserEntity(&registerRequest, role.ID, hashedPassword)
+	newUser := dtos.RegisterRequestDtoToEntitie(&registerRequest, role.ID, hashedPassword)
 
 	succes, err := s.userR.CreateUser(newUser)
 
@@ -88,7 +88,7 @@ func (s UserService) RegisterService(registerRequest dtos.RegisterRequest) (*dto
 		return nil, models.CreateError("User could not created")
 	}
 
-	response := dtos.RegisterResponseFromEntitie(newUser)
+	response := dtos.RegisterResponseDtoFromEntitie(newUser)
 
 	return &response, nil
 }

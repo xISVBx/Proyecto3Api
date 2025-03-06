@@ -2,16 +2,16 @@ package dtos
 
 import "col-moda/internal/domain/entities"
 
-type DepartmentResponse struct {
-	ID   int   `json:"id"`
+type DepartmentResponseDto struct {
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
-func DepartmentsResponseFromEntitie(departments []entities.Department) []DepartmentResponse {
-	var departmentResponse []DepartmentResponse
+func DepartmentsResponseFromEntitie(departments []entities.Department) []DepartmentResponseDto {
+	var departmentResponse []DepartmentResponseDto
 
 	for _, department := range departments {
-		departmentResponse = append(departmentResponse, DepartmentResponse{
+		departmentResponse = append(departmentResponse, DepartmentResponseDto{
 			ID:   department.ID,
 			Name: department.Name,
 		})

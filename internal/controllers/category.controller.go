@@ -24,7 +24,7 @@ func NewCategoryController(s *services.CategorieService) *CategoryController {
 // @Tags Categories
 // @Accept json
 // @Produce json
-// @Success 201 {object} models.AppResponse{data=[]dtos.CategoryResponse}
+// @Success 201 {object} models.AppResponse{data=[]dtos.CategoryResponseDto}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 409 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/categories [get]
