@@ -7,15 +7,17 @@ import (
 )
 
 type DepartmentService struct {
-	repo *repositories.DepartmentRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewDepartmentService(repo *repositories.DepartmentRepository) *DepartmentService {
-	return &DepartmentService{repo: repo}
+func NewDepartmentService(uow *repositories.UnitOfWork) *DepartmentService {
+	return &DepartmentService{
+		uow: uow,
+	}
 }
 
 func (s DepartmentService) FindAllDepartmentsByFilters(dto dtos.DepartmentRequestDto) ([]dtos.DepartmentResponseDto, *models.AppError) {
-	departments, err := s.repo.FindAllDepartmentsByFilters(dto)
+	departments, err := s.uow.DepartmentRepo.FindAllDepartmentsByFilters(dto)
 	if err != nil {
 		return nil, models.NewServerError(err)
 	}

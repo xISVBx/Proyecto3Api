@@ -7,17 +7,17 @@ import (
 )
 
 type ProductService struct {
-	productR *repositories.ProductRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewProductService(r *repositories.ProductRepository) *ProductService {
+func NewProductService(uow *repositories.UnitOfWork) *ProductService {
 	return &ProductService{
-		productR: r,
+		uow: uow,
 	}
 }
 
 func (s ProductService) FindProductsByFilters(productsRequest dtos.ProductRequestDto) ([]dtos.ProductResponseDto, *models.AppError) {
-	products, err := s.productR.FindProductsByFilters(productsRequest)
+	products, err := s.uow.ProductRepo.FindProductsByFilters(productsRequest)
 
 	if err != nil {
 		return nil, models.NewServerError(err)

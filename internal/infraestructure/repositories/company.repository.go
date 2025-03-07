@@ -40,3 +40,29 @@ func (r *CompanyRepository) FindCompaniesByFilters(dto dtos.CompanyRequestDto) (
 
 	return companies, nil
 }
+
+// CreateCompany guarda una nueva empresa en la base de datos
+func (r *CompanyRepository) CreateCompany(company entities.Company) (*bool, error) {
+	result := r.db.Create(&company)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	success := result.RowsAffected > 0
+
+	return &success, nil
+}
+
+// CreateCompany guarda una nueva empresa en la base de datos
+func (r *CompanyRepository) CreateUserCompany(uCompany *entities.UserCompany) (*bool, error) {
+	result := r.db.Create(&uCompany)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	success := result.RowsAffected > 0
+
+	return &success, nil
+}

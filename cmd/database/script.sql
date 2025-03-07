@@ -5,6 +5,9 @@ DECLARE
 	productos_ids UUID[];
 	roles_ids UUID[];
 BEGIN
+
+	CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 	--Generar IDs para roles
 	SELECT ARRAY(
         SELECT gen_random_uuid()
@@ -34,6 +37,7 @@ BEGIN
     INSERT INTO roles (id, description) 
 	VALUES 
     	(gen_random_uuid(), 'Administrador'),
+		(gen_random_uuid(), 'Company'),
     	(gen_random_uuid(), 'Usuario');
 
 

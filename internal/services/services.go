@@ -18,11 +18,12 @@ type Services struct {
 // Función para inicializar todos los servicios
 func InitServices(repos *infraestructure.Infraestructure) *Services {
 	return &Services{
-		DepartmentService: NewDepartmentService(repos.DepartmentRepo), UserService: NewUserService(repos.UserRepo, repos.RoleRepo),
-		RoleService:      NewRoleService(repos.RoleRepo),
-		CategorieService: NewCategorieService(repos.CategoryRepo),
-		ProductService:   NewProductService(repos.ProductRepo),
-		CityService:      NewCityService(repos.CityRepo),
-		CompanyService:   NewCompanyService(repos.CompanyRepo),
+		DepartmentService: NewDepartmentService(repos.UnitOfWork),
+		UserService:       NewUserService(repos.UnitOfWork),
+		RoleService:       NewRoleService(repos.UnitOfWork),
+		CategorieService:  NewCategorieService(repos.UnitOfWork),
+		ProductService:    NewProductService(repos.UnitOfWork),
+		CityService:       NewCityService(repos.UnitOfWork),
+		CompanyService:    NewCompanyService(repos.UnitOfWork),
 	}
 }

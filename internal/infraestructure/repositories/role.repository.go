@@ -42,3 +42,17 @@ func (r RoleRepository) FindUserRole() (*entities.Role, error) {
 
 	return &role, nil
 }
+
+func (r RoleRepository) FindCompanyRole() (*entities.Role, error) {
+	var role entities.Role
+	e := r.db.Where("description = ?", "Company").First(&role)
+
+	if e.Error != nil {
+		if e.Error == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, e.Error
+	}
+
+	return &role, nil
+}

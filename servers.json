@@ -1,0 +1,16 @@
+{
+    "Servers": {
+      "1": {
+        "Name": "colmoda",
+        "Group": "Servers",
+        "Host": "colmodadb",
+        "Port": 5432,
+        "MaintenanceDB": "colmoda",
+        "Username": "admin",
+        "Password": "admin",
+        "SSLMode": "prefer",
+        "Connected": true
+      }
+    }
+  }
+  

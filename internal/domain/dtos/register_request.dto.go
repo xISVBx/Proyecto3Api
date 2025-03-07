@@ -16,13 +16,14 @@ type RegisterRequestDto struct {
 	Phone    string `json:"phone"`
 }
 
-func RegisterRequestDtoToEntitie(registerRequest *RegisterRequestDto, roleId uuid.UUID, hashedPassword string) entities.User {
+// Refactorización: Hashea la contraseña dentro de la función
+func RegisterRequestDtoToEntitie(registerRequest RegisterRequestDto, roleId uuid.UUID) entities.User {
 	return entities.User{
 		ID:             uuid.New(),
 		Name:           registerRequest.Name,
 		LastName:       registerRequest.LastName,
 		Email:          registerRequest.Email,
-		HashedPassword: hashedPassword,
+		HashedPassword: registerRequest.Password,
 		CityID:         registerRequest.CityId,
 		Address:        registerRequest.Address,
 		Phone:          registerRequest.Phone,

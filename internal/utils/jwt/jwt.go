@@ -1,10 +1,10 @@
-package utils
+package jwt
 
 import (
 	"col-moda/internal/configuration"
 	"col-moda/internal/domain/dtos"
-	"time"
 	"errors"
+	"time"
 
 	"github.com/golang-jwt/jwt"
 )

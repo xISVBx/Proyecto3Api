@@ -7,17 +7,17 @@ import (
 )
 
 type CategorieService struct {
-	roleR *repositories.CategoryRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewCategorieService(r *repositories.CategoryRepository) *CategorieService {
+func NewCategorieService(uow *repositories.UnitOfWork) *CategorieService {
 	return &CategorieService{
-		roleR: r,
+		uow: uow,
 	}
 }
 
 func (s CategorieService) FindAllCategories() ([]dtos.CategoryResponseDto, *models.AppError) {
-	categories, err := s.roleR.FindAllCategories()
+	categories, err := s.uow.CategoryRepo.FindAllCategories()
 
 	if err != nil {
 		return nil, models.NewServerError(err)

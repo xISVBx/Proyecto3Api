@@ -7,17 +7,17 @@ import (
 )
 
 type RoleService struct {
-	roleR *repositories.RoleRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewRoleService(r *repositories.RoleRepository) *RoleService {
+func NewRoleService(uow *repositories.UnitOfWork) *RoleService {
 	return &RoleService{
-		roleR: r,
+		uow: uow,
 	}
 }
 
 func (s RoleService) FindAllRoles() ([]entities.Role, *models.AppError) {
-	roles, err := s.roleR.FindAllRoles()
+	roles, err := s.uow.RoleRepo.FindAllRoles()
 
 	if err != nil {
 		return nil, models.NewServerError(err)

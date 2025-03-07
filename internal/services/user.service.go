@@ -4,25 +4,24 @@ import (
 	"col-moda/internal/domain/dtos"
 	"col-moda/internal/domain/models"
 	"col-moda/internal/infraestructure/repositories"
-	"col-moda/internal/utils"
+	"col-moda/internal/utils/crypt"
+	"col-moda/internal/utils/jwt"
 	"log"
 )
 
 type UserService struct {
-	userR *repositories.UserRepository
-	roleR *repositories.RoleRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewUserService(userR *repositories.UserRepository, roleR *repositories.RoleRepository) *UserService {
+func NewUserService(uow *repositories.UnitOfWork) *UserService {
 	return &UserService{
-		userR: userR,
-		roleR: roleR,
+		uow: uow,
 	}
 }
 
 func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError) {
 
-	user, err := s.userR.GetUserByEmail(dto.Email)
+	user, err := s.uow.UserRepo.GetUserByEmail(dto.Email)
 
 	if err != nil {
 		return nil, models.NewServerError(err)
@@ -32,7 +31,7 @@ func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError)
 		return nil, models.NotFound("Email not found")
 	}
 
-	passwordIsCorrect := utils.VerifyPassword(dto.Password, user.HashedPassword)
+	passwordIsCorrect := crypt.VerifyPassword(dto.Password, user.HashedPassword)
 
 	if !passwordIsCorrect {
 		return nil, models.CreateError("Invalid Password")
@@ -40,7 +39,7 @@ func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError)
 
 	userGetDto := dtos.UserGetDtoFromEntity(*user)
 
-	token, err := utils.CreateUserToken(userGetDto)
+	token, err := jwt.CreateUserToken(userGetDto)
 
 	if err != nil {
 		log.Printf("%s\n", err.Error())
@@ -52,7 +51,7 @@ func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError)
 
 func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*dtos.RegisterResponseDto, *models.AppError) {
 
-	user, err := s.userR.GetUserByEmail(registerRequest.Email)
+	user, err := s.uow.UserRepo.GetUserByEmail(registerRequest.Email)
 
 	if err != nil {
 		return nil, models.NewServerError(err)
@@ -62,13 +61,21 @@ func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*
 		return nil, models.CreateError("The user is already created")
 	}
 
-	role, err := s.roleR.FindUserRole()
+	role, err := s.uow.RoleRepo.FindUserRole()
 
 	if err != nil {
 		return nil, models.NewServerError(err)
 	}
 
-	hashedPassword, err := utils.HashPassword(registerRequest.Password)
+	hashedPassword, err := crypt.HashPassword(registerRequest.Password)
+
+	if err != nil {
+		return nil, models.NewServerError(err)
+	}
+
+	registerRequest.Password = hashedPassword
+
+	newUser := dtos.RegisterRequestDtoToEntitie(registerRequest, role.ID)
 
 	if err != nil {
 		return nil, models.NewServerError(err)
@@ -76,9 +83,9 @@ func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*
 
 	registerRequest.Password = ""
 
-	newUser := dtos.RegisterRequestDtoToEntitie(&registerRequest, role.ID, hashedPassword)
+	succes, err := s.uow.UserRepo.CreateUser(newUser);
 
-	succes, err := s.userR.CreateUser(newUser)
+	err = s.uow.Commit()
 
 	if err != nil {
 		return nil, models.NewServerError(err)

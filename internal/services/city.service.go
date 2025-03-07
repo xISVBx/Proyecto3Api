@@ -7,17 +7,17 @@ import (
 )
 
 type CityService struct {
-	cityR *repositories.CityRepository
+	uow *repositories.UnitOfWork
 }
 
-func NewCityService(r *repositories.CityRepository) *CityService {
+func NewCityService(uow *repositories.UnitOfWork) *CityService {
 	return &CityService{
-		cityR: r,
+		uow: uow,
 	}
 }
 
 func (s CityService) FindCitiesByFilters(cityRequest dtos.CityRequestDto) ([]dtos.CityResponseDto, *models.AppError) {
-	cities, err := s.cityR.FindCitiesByFilters(cityRequest)
+	cities, err := s.uow.CityRepo.FindCitiesByFilters(cityRequest)
 
 	if err != nil {
 		return nil, models.NewServerError(err)

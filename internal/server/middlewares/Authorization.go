@@ -1,13 +1,15 @@
 package middleware
 
 import (
-	"col-moda/internal/utils"
+	"col-moda/internal/utils/jwt"
 	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
+
+
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 🔹 Depuración: Imprimir headers
@@ -27,7 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
 		// Verificar el token llamando a `utils.VerifyToken`
-		claims, err := utils.VerifyToken(tokenString)
+		claims, err := jwt.VerifyToken(tokenString)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			c.Abort()

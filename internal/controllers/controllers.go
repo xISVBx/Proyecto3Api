@@ -17,7 +17,8 @@ type Controllers struct {
 // Función para inicializar todos los controladores
 func InitControllers(services *services.Services) *Controllers {
 	return &Controllers{
-		DepartmentController: NewDepartmentController(services.DepartmentService), VersionController: NewVersionController(),
+		DepartmentController: NewDepartmentController(services.DepartmentService), 
+		VersionController: NewVersionController(),
 		UserController:     NewUserController(services.UserService),
 		RoleController:     NewRoleController(services.RoleService),
 		CategoryController: NewCategoryController(services.CategorieService),
