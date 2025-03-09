@@ -17,6 +17,11 @@ func NewCityService(uow *repositories.UnitOfWork) *CityService {
 }
 
 func (s CityService) FindCitiesByFilters(cityRequest dtos.CityRequestDto) ([]dtos.CityResponseDto, *models.AppError) {
+	
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+
 	cities, err := s.uow.CityRepo.FindCitiesByFilters(cityRequest)
 
 	if err != nil {

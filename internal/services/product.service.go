@@ -17,6 +17,11 @@ func NewProductService(uow *repositories.UnitOfWork) *ProductService {
 }
 
 func (s ProductService) FindProductsByFilters(productsRequest dtos.ProductRequestDto) ([]dtos.ProductResponseDto, *models.AppError) {
+	
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+	
 	products, err := s.uow.ProductRepo.FindProductsByFilters(productsRequest)
 
 	if err != nil {

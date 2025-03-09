@@ -17,6 +17,11 @@ func NewRoleService(uow *repositories.UnitOfWork) *RoleService {
 }
 
 func (s RoleService) FindAllRoles() ([]entities.Role, *models.AppError) {
+
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+	
 	roles, err := s.uow.RoleRepo.FindAllRoles()
 
 	if err != nil {

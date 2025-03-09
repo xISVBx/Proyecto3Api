@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// UnitOfWork gestiona una única transacción y sus repositorios.
+// UnitOfWork gestiona la conexión y transacción si es necesario
 type UnitOfWork struct {
 	db             *gorm.DB
 	tx             *gorm.DB
@@ -18,40 +18,67 @@ type UnitOfWork struct {
 	CompanyRepo    *CompanyRepository
 }
 
-// NewUnitOfWork crea una nueva instancia con una transacción activa y repositorios.
+// NewUnitOfWork crea la unidad de trabajo con la conexión pero sin iniciar la transacción
 func NewUnitOfWork(db *gorm.DB) *UnitOfWork {
-	tx := db.Begin() // Se inicia la transacción
-
 	return &UnitOfWork{
-		db:             db,
-		tx:             tx,
-		DepartmentRepo: NewDepartmentRepository(tx),  
-		UserRepo:       NewUserRepository(tx),
-		RoleRepo:       NewRoleRepository(tx),
-		CategoryRepo:   NewCategoriesRepository(tx),
-		ProductRepo:    NewProductRepository(tx),
-		CityRepo:       NewCityRepository(tx),
-		CompanyRepo:    NewCompanyRepository(tx),
+		db:             db, // 🔹 Usa la conexión del pool para lecturas
+		DepartmentRepo: NewDepartmentRepository(db),
+		UserRepo:       NewUserRepository(db),
+		RoleRepo:       NewRoleRepository(db),
+		CategoryRepo:   NewCategoriesRepository(db),
+		ProductRepo:    NewProductRepository(db),
+		CityRepo:       NewCityRepository(db),
+		CompanyRepo:    NewCompanyRepository(db),
 	}
 }
 
+// Begin inicia una transacción solo si se necesita
+func (u *UnitOfWork) Begin() {
 
-// Commit confirma la transacción si no hubo errores.
+	if u.tx == nil {
+		u.tx = u.db.Begin() // 🔹 Solo inicia transacción si es necesario
+		u.DepartmentRepo.db = u.tx
+		u.UserRepo.db = u.tx
+		u.RoleRepo.db = u.tx
+		u.CategoryRepo.db = u.tx
+		u.ProductRepo.db = u.tx
+		u.CityRepo.db = u.tx
+		u.CompanyRepo.db = u.tx
+	}
+}
+
+// Commit confirma la transacción si se inició
 func (u *UnitOfWork) Commit() error {
-	if u.err != nil {
-		return u.err
+	if u.tx != nil {
+		err := u.tx.Commit().Error
+		u.tx = nil 
+		return err
 	}
-	return u.tx.Commit().Error
+	
+	return nil
 }
 
-// Rollback revierte la transacción.
+// Rollback revierte la transacción si se inició
 func (u *UnitOfWork) Rollback() error {
-	return u.tx.Rollback().Error
+	if u.tx != nil {
+		err := u.tx.Rollback().Error
+		u.tx = nil // 🔹 Reseteamos tx después del rollback
+		return err
+	}
+	return nil
 }
 
-// SetError guarda un error para impedir el commit.
+// SetError guarda un error para impedir el commit
 func (u *UnitOfWork) SetError(err error) {
 	if err != nil {
 		u.err = err
 	}
+}
+
+// GetDB devuelve la base de datos actual (transacción o conexión normal)
+func (u *UnitOfWork) GetDB() *gorm.DB {
+	if u.tx != nil {
+		return u.tx
+	}
+	return u.db
 }

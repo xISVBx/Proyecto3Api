@@ -32,6 +32,10 @@ func (r *CompanyService) FindCompaniesByFilters(dto dtos.CompanyRequestDto) ([]d
 
 func (s CompanyService) RegisterCompany(registerCompany dtos.RegisterCompanyRequestDto) (*bool, *models.AppError) {
 
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+	
 	//Validar si el usuario ya existe
 
 	user, err := s.uow.UserRepo.GetUserByEmail(registerCompany.Email)
@@ -107,8 +111,6 @@ func (s CompanyService) RegisterCompany(registerCompany dtos.RegisterCompanyRequ
 		s.uow.Rollback()
 		return nil, models.CreateError("User could not created")
 	}
-
-	err = s.uow.Commit()
 
 	if err != nil {
 		return nil, models.NewServerError(err)

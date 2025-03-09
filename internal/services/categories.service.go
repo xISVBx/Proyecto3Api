@@ -17,6 +17,11 @@ func NewCategorieService(uow *repositories.UnitOfWork) *CategorieService {
 }
 
 func (s CategorieService) FindAllCategories() ([]dtos.CategoryResponseDto, *models.AppError) {
+	
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+	
 	categories, err := s.uow.CategoryRepo.FindAllCategories()
 
 	if err != nil {

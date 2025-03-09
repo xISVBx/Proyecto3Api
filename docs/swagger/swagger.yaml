@@ -62,6 +62,43 @@ definitions:
       tagID:
         type: string
     type: object
+  dtos.RegisterCompanyRequestDto:
+    properties:
+      address:
+        description: Obligatorio
+        type: string
+      city_id:
+        description: Debe ser mayor que 0
+        type: integer
+      company_name:
+        description: Obligatorio
+        type: string
+      description:
+        type: string
+      email:
+        description: Obligatorio y debe ser un email válido
+        type: string
+      last_name:
+        description: Obligatorio
+        type: string
+      name:
+        description: Obligatorio
+        type: string
+      password:
+        description: Mínimo 8 caracteres
+        minLength: 8
+        type: string
+      phone:
+        description: Opcional pero debe ser numérico
+        type: string
+    required:
+    - address
+    - company_name
+    - email
+    - last_name
+    - name
+    - password
+    type: object
   dtos.RegisterRequestDto:
     properties:
       address:
@@ -87,6 +124,8 @@ definitions:
   dtos.RegisterResponseDto:
     properties:
       email:
+        type: string
+      id:
         type: string
       lastName:
         type: string
@@ -259,6 +298,48 @@ paths:
                 data: {}
               type: object
       summary: Busca empresas por filtros opcionales
+      tags:
+      - Empresas
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva empresa con la información proporcionada
+      parameters:
+      - description: Datos de la empresa
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.RegisterCompanyRequestDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtos.CompanyResponseDto'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.AppResponse'
+            - properties:
+                data: {}
+              type: object
+      summary: Registra una nueva empresa
       tags:
       - Empresas
   /api/v1/login:

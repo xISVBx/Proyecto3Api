@@ -260,6 +260,82 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Crea una nueva empresa con la información proporcionada",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Registra una nueva empresa",
+                "parameters": [
+                    {
+                        "description": "Datos de la empresa",
+                        "name": "company",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.RegisterCompanyRequestDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dtos.CompanyResponseDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
         "/api/v1/login": {
@@ -700,6 +776,55 @@
                 }
             }
         },
+        "dtos.RegisterCompanyRequestDto": {
+            "type": "object",
+            "required": [
+                "address",
+                "company_name",
+                "email",
+                "last_name",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "address": {
+                    "description": "Obligatorio",
+                    "type": "string"
+                },
+                "city_id": {
+                    "description": "Debe ser mayor que 0",
+                    "type": "integer"
+                },
+                "company_name": {
+                    "description": "Obligatorio",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "description": "Obligatorio y debe ser un email válido",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "Obligatorio",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Obligatorio",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Mínimo 8 caracteres",
+                    "type": "string",
+                    "minLength": 8
+                },
+                "phone": {
+                    "description": "Opcional pero debe ser numérico",
+                    "type": "string"
+                }
+            }
+        },
         "dtos.RegisterRequestDto": {
             "type": "object",
             "required": [
@@ -736,6 +861,9 @@
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "lastName": {

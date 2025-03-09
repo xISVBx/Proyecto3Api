@@ -10,4 +10,5 @@ func CompanyRoutes(r *gin.RouterGroup, c controllers.CompanyController) {
 
 	r.GET("companies", c.FindAllCompaniesByFilters)
 
+	r.POST("companies", c.RegisterCompany)
 }

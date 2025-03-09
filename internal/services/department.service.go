@@ -17,7 +17,13 @@ func NewDepartmentService(uow *repositories.UnitOfWork) *DepartmentService {
 }
 
 func (s DepartmentService) FindAllDepartmentsByFilters(dto dtos.DepartmentRequestDto) ([]dtos.DepartmentResponseDto, *models.AppError) {
+	
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+	
 	departments, err := s.uow.DepartmentRepo.FindAllDepartmentsByFilters(dto)
+	
 	if err != nil {
 		return nil, models.NewServerError(err)
 	}

@@ -48,3 +48,34 @@ func (ct CompanyController) FindAllCompaniesByFilters(c *gin.Context) {
 	response := models.ResSuccess(companies)
 	c.JSON(http.StatusOK, response)
 }
+
+// RegisterCompany registra una nueva empresa
+// @Summary Registra una nueva empresa
+// @Description Crea una nueva empresa con la información proporcionada
+// @Tags Empresas
+// @Accept  json
+// @Produce  json
+// @Param company body dtos.RegisterCompanyRequestDto true "Datos de la empresa"
+// @Success 201 {object} models.AppResponse{data=dtos.CompanyResponseDto}
+// @Failure 400 {object} models.AppResponse{data=interface{}}
+// @Failure 500 {object} models.AppResponse{data=interface{}}
+// @Router /api/v1/companies [post]
+func (ct CompanyController) RegisterCompany(c *gin.Context) {
+
+	var dto dtos.RegisterCompanyRequestDto
+	err := c.ShouldBindQuery(&dto)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.ResError(err.Error()))
+		return
+	}
+
+	companies, aErr := ct.service.RegisterCompany(dto)
+	if aErr != nil {
+		c.JSON(aErr.Status, models.ResFromApp(aErr))
+		return
+	}
+
+	response := models.ResSuccess(companies)
+	c.JSON(http.StatusOK, response)
+}

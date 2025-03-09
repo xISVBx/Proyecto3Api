@@ -21,6 +21,10 @@ func NewUserService(uow *repositories.UnitOfWork) *UserService {
 
 func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError) {
 
+	s.uow.Begin()
+
+	defer s.uow.Commit()
+
 	user, err := s.uow.UserRepo.GetUserByEmail(dto.Email)
 
 	if err != nil {
@@ -48,28 +52,36 @@ func (s UserService) LoginService(dto dtos.LoginDto) (*string, *models.AppError)
 
 	return token, nil
 }
-
+ 
 func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*dtos.RegisterResponseDto, *models.AppError) {
+
+	s.uow.Begin()
+
+	defer s.uow.Commit()
 
 	user, err := s.uow.UserRepo.GetUserByEmail(registerRequest.Email)
 
 	if err != nil {
+		s.uow.Rollback()
 		return nil, models.NewServerError(err)
 	}
 
 	if user != nil {
+		s.uow.Rollback()
 		return nil, models.CreateError("The user is already created")
 	}
 
 	role, err := s.uow.RoleRepo.FindUserRole()
 
 	if err != nil {
+		s.uow.Rollback()
 		return nil, models.NewServerError(err)
 	}
 
 	hashedPassword, err := crypt.HashPassword(registerRequest.Password)
 
 	if err != nil {
+		s.uow.Rollback()
 		return nil, models.NewServerError(err)
 	}
 
@@ -77,21 +89,17 @@ func (s UserService) RegisterService(registerRequest dtos.RegisterRequestDto) (*
 
 	newUser := dtos.RegisterRequestDtoToEntitie(registerRequest, role.ID)
 
-	if err != nil {
-		return nil, models.NewServerError(err)
-	}
-
 	registerRequest.Password = ""
 
-	succes, err := s.uow.UserRepo.CreateUser(newUser);
-
-	err = s.uow.Commit()
+	succes, err := s.uow.UserRepo.CreateUser(newUser)
 
 	if err != nil {
+		s.uow.Rollback()
 		return nil, models.NewServerError(err)
 	}
 
 	if !*succes {
+		s.uow.Rollback()
 		return nil, models.CreateError("User could not created")
 	}
 
