@@ -30,7 +30,7 @@ func (r *CompanyService) FindCompaniesByFilters(dto dtos.CompanyRequestDto) ([]d
 	return companiesResponse, nil
 }
 
-func (s CompanyService) RegisterCompany(registerCompany dtos.RegisterCompanyRequestDto) (*bool, *models.AppError) {
+func (s CompanyService) RegisterCompany(registerCompany dtos.RegisterCompanyRequestDto) (*dtos.RegisterCompanyResponseDto, *models.AppError) {
 
 	s.uow.Begin()
 
@@ -116,5 +116,7 @@ func (s CompanyService) RegisterCompany(registerCompany dtos.RegisterCompanyRequ
 		return nil, models.NewServerError(err)
 	}
 
-	return succes, nil
+	companyResponse := dtos.RegisterCompanyResponseDtoFromEntities(newUser, newCompany)
+
+	return &companyResponse, nil
 }

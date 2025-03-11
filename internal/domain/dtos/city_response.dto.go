@@ -3,9 +3,9 @@ package dtos
 import "col-moda/internal/domain/entities"
 
 type CityResponseDto struct {
-	ID           int
-	DepartmentID int
-	CityName     string
+	ID           int    `json:"id"`
+	DepartmentID int    `json:"department_id"`
+	CityName     string `json:"city_name"`
 }
 
 func CitiesResponseFromEntities(e []entities.City) []CityResponseDto {

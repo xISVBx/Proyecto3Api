@@ -34,7 +34,7 @@ func NewUserController(s *services.UserService) *UserController {
 // @Router /api/v1/login [post]
 func (ct UserController) Login(c *gin.Context) {
 	var dto dtos.LoginDto
-	err := c.ShouldBindJSON(&dto)
+	err := c.Bind(&dto)
 
 	if err != nil {
 		for k, v := range c.Request.Header {
@@ -51,12 +51,11 @@ func (ct UserController) Login(c *gin.Context) {
 
 	token := c.GetHeader("Authorization")
 
-	fmt.Println("Este es el token")
+	fmt.Printf("Este es el token: %s\n", token) // Usando fmt.Printf
 
 	for k, v := range c.Request.Header {
 		fmt.Printf("%s: %s\n", k, v)
 	}
-	dto.Token = token
 
 	jwt, aErr := ct.userService.LoginService(dto)
 

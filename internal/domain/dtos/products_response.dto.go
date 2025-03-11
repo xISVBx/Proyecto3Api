@@ -7,18 +7,19 @@ import (
 )
 
 type ProductResponseDto struct {
-	ID               uuid.UUID
-	Name             string
-	ShortDescription string
-	LongDescription  string
-	Price            float64
-	Stock            int
-	CompanyID        uuid.UUID
-	CategoryID       uuid.UUID
-	SubCategoryID    uuid.UUID
-	DiscountID       *uuid.UUID
-	TagID            uuid.UUID
+	ID               uuid.UUID  `json:"id"`
+	Name             string     `json:"name"`
+	ShortDescription string     `json:"short_description"`
+	LongDescription  string     `json:"long_description"`
+	Price            float64    `json:"price"`
+	Stock            int        `json:"stock"`
+	CompanyID        uuid.UUID  `json:"company_id"`
+	CategoryID       uuid.UUID  `json:"category_id"`
+	SubCategoryID    uuid.UUID  `json:"sub_category_id"`
+	DiscountID       *uuid.UUID `json:"discount_id,omitempty"`
+	TagID            uuid.UUID  `json:"tag_id"`
 }
+
 
 func ProductsResponseDtoFromEntities(products []entities.Product) []ProductResponseDto {
 	var productsResponse []ProductResponseDto

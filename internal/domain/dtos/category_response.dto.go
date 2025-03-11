@@ -7,10 +7,11 @@ import (
 )
 
 type CategoryResponseDto struct {
-	ID          uuid.UUID
-	Name        string
-	Descripcion string
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
 }
+
 
 func CategoriesResponseFromEntitie(categories []entities.Category) []CategoryResponseDto {
 	var categoriesResponse []CategoryResponseDto
@@ -18,7 +19,7 @@ func CategoriesResponseFromEntitie(categories []entities.Category) []CategoryRes
 		categoriesResponse = append(categoriesResponse, CategoryResponseDto{
 			ID:          category.ID,
 			Name:        category.Name,
-			Descripcion: category.Description,
+			Description: category.Description,
 		})
 	}
 	return categoriesResponse

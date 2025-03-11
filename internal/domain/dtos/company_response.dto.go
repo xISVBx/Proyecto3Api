@@ -8,7 +8,7 @@ import (
 
 type CompanyResponseDto struct {
 	ID          uuid.UUID `form:"id,omitempty"`
-	CompanyName string`form:"company_name,omitempty"`
+	CompanyName string    `form:"company_name,omitempty"`
 }
 
 func CompaniesResponseDtoFromEntities(companies []entities.Company) []CompanyResponseDto {

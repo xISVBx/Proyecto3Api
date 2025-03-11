@@ -1,6 +1,6 @@
 package dtos
 
 type ProductRequestDto struct {
-	SearchQuery string
-	CategoryIDs []int
+	SearchQuery string `json:"search_query"`
+	CategoryIDs []int  `json:"category_ids"`
 }

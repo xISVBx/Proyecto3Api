@@ -56,14 +56,14 @@ func (ct CompanyController) FindAllCompaniesByFilters(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param company body dtos.RegisterCompanyRequestDto true "Datos de la empresa"
-// @Success 201 {object} models.AppResponse{data=dtos.CompanyResponseDto}
+// @Success 201 {object} models.AppResponse{data=dtos.RegisterCompanyResponseDto}
 // @Failure 400 {object} models.AppResponse{data=interface{}}
 // @Failure 500 {object} models.AppResponse{data=interface{}}
 // @Router /api/v1/companies [post]
 func (ct CompanyController) RegisterCompany(c *gin.Context) {
 
 	var dto dtos.RegisterCompanyRequestDto
-	err := c.ShouldBindQuery(&dto)
+	err := c.Bind(&dto)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.ResError(err.Error()))

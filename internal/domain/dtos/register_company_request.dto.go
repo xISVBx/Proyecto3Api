@@ -16,11 +16,11 @@ type RegisterCompanyRequestDto struct {
 	Phone       string `json:"phone" binding:"omitempty,numeric"` // Opcional pero debe ser numérico
 	CompanyName string `json:"company_name" binding:"required"`   // Obligatorio
 	Description string `json:"description"`
-}
+} 
 
 func RegisterCompanyRequestDtoToEntitie(registerCompanyRequest RegisterCompanyRequestDto, roleID uuid.UUID) (entities.User, entities.Company, entities.UserCompany) {
 
-	userID := uuid.New()
+	userID := uuid.New() 
 	companyID := uuid.New()
 
 	return entities.User{

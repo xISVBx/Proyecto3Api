@@ -302,7 +302,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dtos.CompanyResponseDto"
+                                            "$ref": "#/definitions/dtos.RegisterCompanyResponseDto"
                                         }
                                     }
                                 }
@@ -327,6 +327,90 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/departments": {
+            "get": {
+                "description": "Retorna un listado de las ciudades filtradas por departamento o nombre de ciudad.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Obtener todos los departamentos de la aplicación",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del departamento (opcional)",
+                        "name": "department_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Nombre de la ciudad (opcional)",
+                        "name": "department_name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/dtos.DepartmentRequestDto"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.AppResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {}
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "allOf": [
                                 {
@@ -690,7 +774,7 @@ const docTemplate = `{
         "dtos.CategoryResponseDto": {
             "type": "object",
             "properties": {
-                "descripcion": {
+                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -704,10 +788,10 @@ const docTemplate = `{
         "dtos.CityResponseDto": {
             "type": "object",
             "properties": {
-                "cityName": {
+                "city_name": {
                     "type": "string"
                 },
-                "departmentID": {
+                "department_id": {
                     "type": "integer"
                 },
                 "id": {
@@ -726,6 +810,18 @@ const docTemplate = `{
                 }
             }
         },
+        "dtos.DepartmentRequestDto": {
+            "type": "object",
+            "properties": {
+                "department_id": {
+                    "description": "Cambia \"json\" por \"form\"",
+                    "type": "integer"
+                },
+                "department_name": {
+                    "type": "string"
+                }
+            }
+        },
         "dtos.LoginDto": {
             "type": "object",
             "required": [
@@ -738,28 +834,25 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string"
-                },
-                "token": {
-                    "type": "string"
                 }
             }
         },
         "dtos.ProductResponseDto": {
             "type": "object",
             "properties": {
-                "categoryID": {
+                "category_id": {
                     "type": "string"
                 },
-                "companyID": {
+                "company_id": {
                     "type": "string"
                 },
-                "discountID": {
+                "discount_id": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "longDescription": {
+                "long_description": {
                     "type": "string"
                 },
                 "name": {
@@ -768,16 +861,16 @@ const docTemplate = `{
                 "price": {
                     "type": "number"
                 },
-                "shortDescription": {
+                "short_description": {
                     "type": "string"
                 },
                 "stock": {
                     "type": "integer"
                 },
-                "subCategoryID": {
+                "sub_category_id": {
                     "type": "string"
                 },
-                "tagID": {
+                "tag_id": {
                     "type": "string"
                 }
             }
@@ -831,6 +924,26 @@ const docTemplate = `{
                 }
             }
         },
+        "dtos.RegisterCompanyResponseDto": {
+            "type": "object",
+            "properties": {
+                "company_id": {
+                    "type": "string"
+                },
+                "company_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "dtos.RegisterRequestDto": {
             "type": "object",
             "required": [
@@ -872,7 +985,7 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "lastName": {
+                "last_name": {
                     "type": "string"
                 },
                 "name": {

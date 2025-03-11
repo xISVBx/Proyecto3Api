@@ -9,14 +9,54 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func CreateUserToken(user dtos.UserGetDto) (*string, error) {
+func CreateUserToken(user dtos.UserResponseDto) (*string, error) {
 	// Define claims (payload)
 	claims := jwt.MapClaims{
-		"name":  user.Name,
-		"email": user.Email,
-		"exp":   time.Now().Add(time.Hour * 24).Unix(), // Expires in 24 hours
+		"id":        user.ID,
+		"role_id":   user.RoleID,
+		"role":      "Usuario",
+		"name":      user.Name,
+		"last_name": user.LastName,
+		"email":     user.Email,
+		"phone":     user.Phone,
+		"exp":       time.Now().Add(time.Hour * 24).Unix(), // Expires in 24 hours
 	}
 
+	token, err := createToken(claims)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+
+}
+
+func CreateUserCompanyToken(company dtos.UserCompanyResponseDto) (*string, error) {
+
+	claims := jwt.MapClaims{
+		"id":           company.ID,
+		"company_id":   company.CompanyID,
+		"company_name": company.CompanyName,
+		"role_id":      company.RoleID,
+		"role":         "Company",
+		"name":         company.Name,
+		"last_name":    company.LastName,
+		"email":        company.Email,
+		"phone":        company.Phone,
+		"exp":          time.Now().Add(time.Hour * 24).Unix(), // Expires in 24 hours
+	}
+
+	token, err := createToken(claims)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+}
+
+func createToken(claims jwt.MapClaims) (*string, error) {
 	// Create token with claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 

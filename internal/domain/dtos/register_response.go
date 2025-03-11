@@ -7,11 +7,12 @@ import (
 )
 
 type RegisterResponseDto struct {
-	ID       uuid.UUID
-	Name     string
-	LastName string
-	Email    string
+	ID       uuid.UUID `json:"id"`
+	Name     string    `json:"name"`
+	LastName string    `json:"last_name"`
+	Email    string    `json:"email"`
 }
+
 
 func RegisterResponseDtoFromEntitie(user entities.User) RegisterResponseDto {
 	return RegisterResponseDto{
